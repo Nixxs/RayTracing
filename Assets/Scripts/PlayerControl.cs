@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
 {
     public void UpdateMovement()
@@ -28,17 +29,17 @@ public class PlayerControl : MonoBehaviour
             direction += Vector3.right;
         }
 
-        Vector3 movement = direction.normalized * FindObjectOfType<Player>().speed * Time.deltaTime;
+        Vector3 movement = direction.normalized * FindObjectOfType<Player>().speed * Time.fixedDeltaTime;
         transform.Translate(movement);
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(new Vector3(0, -FindObjectOfType<Player>().turnspeed, 0));
+            transform.Rotate(new Vector3(0, -FindObjectOfType<Player>().turnspeed * Time.fixedDeltaTime, 0));
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(new Vector3(0, FindObjectOfType<Player>().turnspeed, 0));
+            transform.Rotate(new Vector3(0, FindObjectOfType<Player>().turnspeed * Time.fixedDeltaTime, 0));
         }
     }
 }

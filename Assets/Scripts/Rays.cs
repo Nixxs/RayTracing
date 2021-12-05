@@ -13,7 +13,8 @@ public class Rays : MonoBehaviour
 
         // physics raycast will cast our ray out and return true/false if it hits something
         // if it does hit something is also gives you RaycastHit via the out var
-        if (Physics.Raycast(ray, out hitInfo))
+        // it also has an overload that allows you to set max distance so it doesn't go on forever
+        if (Physics.Raycast(ray, out hitInfo, 100f))
         {
             // draws a line between two points, so we set origin to the ray origin position and
             // end point to be the thing that the ray hit

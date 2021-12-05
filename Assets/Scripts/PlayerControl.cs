@@ -42,4 +42,12 @@ public class PlayerControl : MonoBehaviour
             transform.Rotate(new Vector3(0, FindObjectOfType<Player>().turnspeed * Time.fixedDeltaTime, 0));
         }
     }
+
+    public void UpdatePlayerInput()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            FindObjectOfType<Rays>().CastRay();
+        }
+    }
 }

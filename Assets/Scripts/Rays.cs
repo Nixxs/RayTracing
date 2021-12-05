@@ -20,9 +20,30 @@ public class Rays : MonoBehaviour
             // end point to be the thing that the ray hit
             Debug.DrawLine(ray.origin, hitInfo.point, Color.green);
 
-            // this is just to print out the tag of the game object that was hit to show
-            // that we have access to the hit game object.
-            print(hitInfo.transform.gameObject.tag);
+            // if it hit a wall bounce it off the wall
+            if (hitInfo.transform.gameObject.tag == "Wall")
+            {
+                // define the bounce direction using the initial hitobject normal
+                Vector3 bounceDirection = Vector3.Reflect(ray.direction, hitInfo.normal);
+                // make a new ray using the hit location as orgin and bounce direction as direction
+                Ray bounceRay = new Ray(hitInfo.point, bounceDirection);
+                RaycastHit hitInfo2;
+                if (Physics.Raycast(bounceRay, out hitInfo2, 100f))
+                {
+                    // cast out the new ray and draw a line if it hits something 
+                    Debug.DrawLine(bounceRay.origin, hitInfo2.point, Color.green);
+                    print(hitInfo2.transform.tag);
+                } else
+                {
+                    // if the bounce didn't hit anythign then draw it red
+                    Vector3 endBouncePoint = bounceRay.origin + (bounceRay.direction * 20);
+                    Debug.DrawLine(bounceRay.origin, endBouncePoint, Color.red);
+                }
+            } else // if it didnt hit a wall just print what it hit
+            {
+                print(hitInfo.transform.tag);
+            }
+
         } else
         {
             // the ray hasn't hit anything so calculate the end point for the ray coming
@@ -31,8 +52,6 @@ public class Rays : MonoBehaviour
 
             // draw the ray line in red since it didn't hit anything
             Debug.DrawLine(ray.origin, endPoint, Color.red);
-
-            
         }
     }
 }

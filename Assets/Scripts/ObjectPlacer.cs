@@ -27,7 +27,14 @@ public class ObjectPlacer : MonoBehaviour
                     ObjectToPlace.position = hitInfo.point;
                     // rotate the object so that it conforms to the surface of the terrain
                     ObjectToPlace.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-                    print(hitInfo.distance);
+                }
+
+                // if a cube is hit by the ray then we change the Object to the clicked on cube
+                if (hitInfo.transform.gameObject.tag == "Cube")
+                {
+                    // because of the way we setup the cube meshes we actually select the parent
+                    // instead of the just the mesh that was intersected by the ray
+                    ObjectToPlace = hitInfo.transform.parent;
                 }
             }
         }
